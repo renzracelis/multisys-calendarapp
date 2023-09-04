@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../App"
 import logo from "../logo.svg"
 import Button from "./Button"
-import Heading from "./Heading"
 import { useLayoutEffect } from "react"
 
 export default function Header() {

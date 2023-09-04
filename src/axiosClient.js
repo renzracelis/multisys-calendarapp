@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'https://multisys-calendarapp-jsonserver.vercel.app/',
+    baseURL: 'http://localhost:3000/',
 });
 
 export default axiosClient;

@@ -1,7 +1,6 @@
 import logo from "../logo1.svg"
 import Field from "../components/Field";
 import Wrapper from "../components/Wrapper";
-import Heading from "../components/Heading";
 import Button from "../components/Button";
 import { useLayoutEffect, useState } from "react";
 import { useAuth } from "../App";
