@@ -1,25 +1,59 @@
-import logo from './logo.svg';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
 import './App.css';
+import Appointment from './views/Appointment';
+import Appointments from './views/Appointments';
+import CreateAppointment from './views/CreateAppointment';
+import Login from './views/Login';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Root from './views/Root';
+import { createContext, useContext, useLayoutEffect, useState } from 'react';
+
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      {
+        path: '',
+        element: <Appointments />
+      },
+      {
+        path: 'appointments/:id',
+        element: <Appointment />
+      },
+      {
+        path: '/appointments/create',
+        element: <CreateAppointment />
+      }
+    ]
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+])
+
+const queryClient = new QueryClient()
+const AuthContext = createContext()
+export const useAuth = () => useContext(AuthContext)
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false)
+
+  useLayoutEffect(() => {
+    setIsAuth(prevState => sessionStorage.getItem('accessToken') ? true : false)
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient}>
+      <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+        <RouterProvider router={router} />
+      </AuthContext.Provider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  )
 }
 
 export default App;
